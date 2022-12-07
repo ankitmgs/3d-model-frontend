@@ -1,13 +1,16 @@
 import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import { Slide } from "react-reveal";
+import app_config from "../config";
 
 
 const ModalList = () => {
+
+  const url = app_config.api_url;
   const [threeDArray, setthreeDArray] = useState([]);
 
   const getDataFromBackend = async () => {
-    const response = await fetch("http://localhost:5000/modal/getall");
+    const response = await fetch(url + "/modal/getall");
     const data = await response.json();
     console.log(data);
     setthreeDArray(data);

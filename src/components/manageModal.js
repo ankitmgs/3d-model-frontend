@@ -1,12 +1,14 @@
 import React, { useEffect, useState } from "react";
 import { Slide } from "react-reveal";
 import Swal from "sweetalert2";
+import app_config from "../config";
 
 const ManageModal = () => {
+  const url = app_config.api_url;
   const [threeDArray, setthreeDArray] = useState([]);
 
   const getDataFromBackend = async () => {
-    const response = await fetch("http://localhost:5000/modal/getall");
+    const response = await fetch(url + "/modal/getall");
     const data = await response.json();
     console.log(data);
     setthreeDArray(data);
@@ -16,7 +18,7 @@ const ManageModal = () => {
     const reOpt = {
       method: "DELETE",
     };
-    fetch("http://localhost:5000/modal/delete/" + id, reOpt)
+    fetch(url + "/modal/delete/" + id, reOpt)
       .then((res) => {
         if (res.status === 200) {
           Swal.fire("Deleted!", "Your file has been deleted.", "success");
@@ -36,44 +38,44 @@ const ManageModal = () => {
   const displayModels = () => {
     return threeDArray.map((model) => (
       <>
-      <Slide top>
-        <tr>
-          <td>
-            <div className="d-flex align-items-center">
-              <img
-                src={"http://localhost:5000/images/" + model.thumbnail}
-                alt=""
-                style={{ width: 45, height: 45 }}
-                className="rounded-circle"
-              />
-              <div className="ms-3">
-                <p className="fw-bold mb-1">{model.title}</p>
-                {/* <p className="text-muted mb-0">john.doe@gmail.com</p> */}
+        <Slide top>
+          <tr>
+            <td>
+              <div className="d-flex align-items-center">
+                <img
+                  src={"http://localhost:5000/images/" + model.thumbnail}
+                  alt=""
+                  style={{ width: 45, height: 45 }}
+                  className="rounded-circle"
+                />
+                <div className="ms-3">
+                  <p className="fw-bold mb-1">{model.title}</p>
+                  {/* <p className="text-muted mb-0">john.doe@gmail.com</p> */}
+                </div>
               </div>
-            </div>
-          </td>
-          <td>
-            <p className="fw-normal mb-1">{model.description}</p>
-            {/* <p className="text-muted mb-0">IT department</p> */}
-          </td>
-          <td>
-            <span className="badge badge-success rounded-pill d-inline">
-              Product
-            </span>
-          </td>
-          {/* <td>Senior</td> */}
-          <td>
-            <button
-              onClick={() => {
-                deleteUser(model._id);
-              }}
-              type="button"
-              className="btn btn-danger btn-sm "
-            >
-              Delete
-            </button>
-          </td>
-        </tr>
+            </td>
+            <td>
+              <p className="fw-normal mb-1">{model.description}</p>
+              {/* <p className="text-muted mb-0">IT department</p> */}
+            </td>
+            <td>
+              <span className="badge badge-success rounded-pill d-inline">
+                Product
+              </span>
+            </td>
+            {/* <td>Senior</td> */}
+            <td>
+              <button
+                onClick={() => {
+                  deleteUser(model._id);
+                }}
+                type="button"
+                className="btn btn-danger btn-sm "
+              >
+                Delete
+              </button>
+            </td>
+          </tr>
         </Slide>
       </>
     ));
